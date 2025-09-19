@@ -52,7 +52,7 @@ Recharts
 
 Clone the repo
 
-git clone https://github.com/your-username/GeoLedger.git
+git clone https://github.com/GeorgieW1/expense-tracker.git
 cd GeoLedger
 
 
