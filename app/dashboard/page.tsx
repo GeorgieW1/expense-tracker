@@ -5,7 +5,7 @@ import DashboardLayout from "@/components/DashboardLayout"
 import DashboardStats from "@/components/DashboardStats"
 import RecentTransactions from "@/components/RecentTransactions"
 import AddTransactionForm from "@/components/AddTransactionForm"
-import DebugPanel from "@/components/DebugPanel"
+// import DebugPanel from "@/components/DebugPanel"
 import ExpenseCategoryChart from "@/components/ExpenseCategoryChart"
 import MonthlyOverviewChart from "@/components/MonthlyOverviewChart"
 
@@ -53,7 +53,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        <DebugPanel />
+        {/* <DebugPanel /> */}
       </DashboardLayout>
     </ProtectedRoute>
   )
