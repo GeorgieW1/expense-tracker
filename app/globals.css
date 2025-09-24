@@ -123,3 +123,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Prevent layout shift when the scrollbar appears/disappears */
+html {
+  /* modern approach (browser support is pretty good now) */
+  scrollbar-gutter: stable both-edges;
+}
+
+/* Fallback: always reserve vertical scrollbar space on platforms/browsers
+   that would otherwise show/hide it (Windows etc). */
+body {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; /* smoothness on iOS */
+}

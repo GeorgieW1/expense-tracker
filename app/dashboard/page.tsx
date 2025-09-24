@@ -21,8 +21,9 @@ export default function DashboardPage() {
 
           <DashboardStats />
 
-          <div className="grid lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <ExpenseCategoryChart />
+            
             <MonthlyOverviewChart />
           </div>
 
