@@ -4,17 +4,10 @@ import type React from "react"
 import { useAuth } from "@/contexts/AuthContext"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { LogOut, User, Settings, Home, Receipt, BarChart3 } from "lucide-react"
+import { LogOut, User, Settings, Home, Receipt, BarChart3, Menu } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import * as Popover from "@radix-ui/react-popover"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -44,6 +37,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <div className="flex items-center space-x-4">
               <h1 className="text-2xl font-bold text-primary">GeoLedger</h1>
 
+              {/* Desktop Nav */}
               <nav className="hidden md:flex items-center space-x-4 ml-8">
                 <Link href="/dashboard">
                   <Button
@@ -75,6 +69,54 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   </Button>
                 </Link>
               </nav>
+
+              {/* Mobile Hamburger */}
+              <div className="md:hidden">
+                <Popover.Root>
+                  <Popover.Trigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Menu className="h-5 w-5" />
+                    </Button>
+                  </Popover.Trigger>
+
+                  <Popover.Content
+                    align="start"
+                    side="bottom"
+                    sideOffset={8}
+                    className="w-48 rounded-lg border bg-card p-2 shadow-md z-50"
+                  >
+                    <Link href="/dashboard">
+                      <button
+                        className={`flex items-center w-full px-2 py-1.5 rounded hover:bg-muted ${
+                          pathname === "/dashboard" ? "bg-muted font-medium" : ""
+                        }`}
+                      >
+                        <Home className="mr-2 h-4 w-4" /> Dashboard
+                      </button>
+                    </Link>
+
+                    <Link href="/transactions">
+                      <button
+                        className={`flex items-center w-full px-2 py-1.5 rounded hover:bg-muted ${
+                          pathname === "/transactions" ? "bg-muted font-medium" : ""
+                        }`}
+                      >
+                        <Receipt className="mr-2 h-4 w-4" /> Transactions
+                      </button>
+                    </Link>
+
+                    <Link href="/analytics">
+                      <button
+                        className={`flex items-center w-full px-2 py-1.5 rounded hover:bg-muted ${
+                          pathname === "/analytics" ? "bg-muted font-medium" : ""
+                        }`}
+                      >
+                        <BarChart3 className="mr-2 h-4 w-4" /> Analytics
+                      </button>
+                    </Link>
+                  </Popover.Content>
+                </Popover.Root>
+              </div>
             </div>
 
             {/* Right Section */}
@@ -83,8 +125,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 Welcome back, {currentUser?.email?.split("@")[0]}
               </span>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+              {/* Profile Popover */}
+              <Popover.Root>
+                <Popover.Trigger asChild>
                   <Button
                     variant="ghost"
                     className="relative h-8 w-8 rounded-full"
@@ -95,40 +138,37 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       </AvatarFallback>
                     </Avatar>
                   </Button>
-                </DropdownMenuTrigger>
+                </Popover.Trigger>
 
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        Account
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {currentUser?.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
+                <Popover.Content
+                  align="end"
+                  side="bottom"
+                  sideOffset={8}
+                  className="w-56 rounded-lg border bg-card p-2 shadow-md z-50"
+                >
+                  <div className="px-2 pb-2 border-b mb-2">
+                    <p className="text-sm font-medium leading-none">Account</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {currentUser?.email}
+                    </p>
+                  </div>
 
-                  <DropdownMenuSeparator />
+                  <button className="flex items-center w-full px-2 py-1.5 rounded hover:bg-muted">
+                    <User className="mr-2 h-4 w-4" /> Profile
+                  </button>
 
-                  <DropdownMenuItem>
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                  </DropdownMenuItem>
+                  <button className="flex items-center w-full px-2 py-1.5 rounded hover:bg-muted">
+                    <Settings className="mr-2 h-4 w-4" /> Settings
+                  </button>
 
-                  <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuSeparator />
-
-                  <DropdownMenuItem onClick={handleLogout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center w-full px-2 py-1.5 rounded hover:bg-destructive hover:text-destructive-foreground"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" /> Log out
+                  </button>
+                </Popover.Content>
+              </Popover.Root>
             </div>
           </div>
         </div>
